@@ -11,6 +11,7 @@ class recorte(webapp.webApp):
     originales = {}
     numero = 0
     fichs = [ "urls_acortadas.csv", "urls.csv"]
+
     def parse(self,request):
         clase = request.split(" ",1)[0]
         parametro = request.split(" ",2)[1][1:]
@@ -44,6 +45,7 @@ class recorte(webapp.webApp):
         with open(fich, 'a') as csvsalida:
             salida = csv.writer(csvsalida)
             salida.writerows(datos)
+
     def sustituir (self, url):
         cambio = url
         cadena = url.split("%2F")
@@ -74,7 +76,6 @@ class recorte(webapp.webApp):
                 httpBody += "<form method='post' >"
                 httpBody += "URL:<input type='text' name='url'>"
                 httpBody += "</form></body></html>"
-
         elif clase == "POST":
             httpCode = "200 OK"
             qsvalida = cuerpo.split("=")[0]
@@ -96,7 +97,6 @@ class recorte(webapp.webApp):
                     httpBody += "URL original: " + url_acortar
                     httpBody += " - URL acortada: http://localhost:1234/" + self.diccionario[url_acortar]
                     httpBody += "</body></html>"
-
             else:
                 httpCode = "404 NOT FOUND"
                 httpBody = "invalid qs"
