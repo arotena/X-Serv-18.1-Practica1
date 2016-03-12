@@ -38,7 +38,6 @@ class recorte(webapp.webApp):
             for reg in entrada:
                 self.originales[reg[0]]=reg[1]
                 self.numero = int(reg[0]) + 1
-            print "numero : " + str(self.numero)
 
     def escribir (self,key,valor,fich):
         datos = [(key, valor),]
@@ -64,7 +63,6 @@ class recorte(webapp.webApp):
         [clase,parametro,cuerpo] = parsedRequest
         if clase == "GET":
             httpCode = "200 OK"
-            print "parametro: " + parametro
             if(parametro in self.originales) == 1:
                 httpBody = "<html><head><meta http-equiv='refresh' content='1;"
                 httpBody += "url=" + self.originales[parametro]
@@ -93,7 +91,6 @@ class recorte(webapp.webApp):
                     self.escribir(str(self.numero),url_acortar, self.fichs[1])
                     self.diccionario[url_acortar] = str(self.numero)
                     self.originales[str(self.numero)] = url_acortar
-                    print "Abajo: " + str(self.numero)
                     self.numero = self.numero + 1
                     httpBody = "<html><body>Nueva URL acortada: "
                     httpBody += "URL original: " + url_acortar
