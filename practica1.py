@@ -13,6 +13,8 @@ class recorte(webapp.webApp):
     fichs = [ "urls_acortadas.csv", "urls.csv"]
 
     def parse(self,request):
+        if not request:
+            return '','',''
         clase = request.split(" ",1)[0]
         parametro = request.split(" ",2)[1][1:]
         cuerpo = request.split("\r\n\r\n")[1]
@@ -82,20 +84,25 @@ class recorte(webapp.webApp):
             if (qsvalida == "url"):
                 url_real = cuerpo.split("=")[1]
                 nueva = self.procUrl(url_real)
-                url_acortar = self.sustituir(nueva)
-                if (url_acortar in self.diccionario)==1:
-                    httpBody = "<html><body>URL original: " + url_acortar
-                    httpBody += " - URL acortada: http://localhost:1234/" + self.diccionario[url_acortar]
+                url_definitiva = self.sustituir(nueva)
+                if (url_definitiva in self.diccionario)==1:
+                    httpBody = "<html><body>URL original: <a href=" + url_definitiva
+                    httpBody += ">" + url_definitiva + "</a>"
+                    httpBody += " - URL acortada: <a href=" 'http://localhost:1234/'
+                    httpBody +=  self.diccionario[url_definitiva] + ">http://localhost:1234/"
+                    httpBody += self.diccionario[url_definitiva]
                     httpBody += "</body></html>"
                 else:
-                    self.escribir(url_acortar,str(self.numero), self.fichs[0])
-                    self.escribir(str(self.numero),url_acortar, self.fichs[1])
-                    self.diccionario[url_acortar] = str(self.numero)
-                    self.originales[str(self.numero)] = url_acortar
+                    self.escribir(url_definitiva,str(self.numero), self.fichs[0])
+                    self.escribir(str(self.numero),url_definitiva, self.fichs[1])
+                    self.diccionario[url_definitiva] = str(self.numero)
+                    self.originales[str(self.numero)] = url_definitiva
                     self.numero = self.numero + 1
-                    httpBody = "<html><body>Nueva URL acortada: "
-                    httpBody += "URL original: " + url_acortar
-                    httpBody += " - URL acortada: http://localhost:1234/" + self.diccionario[url_acortar]
+                    httpBody = "<html><body>Nueva URL original: <a href=" + url_definitiva
+                    httpBody += ">" + url_definitiva + "</a>"
+                    httpBody += " - URL acortada: <a href=" 'http://localhost:1234/'
+                    httpBody +=  self.diccionario[url_definitiva] + ">http://localhost:1234/"
+                    httpBody += self.diccionario[url_definitiva]
                     httpBody += "</body></html>"
             else:
                 httpCode = "404 NOT FOUND"
