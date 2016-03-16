@@ -73,11 +73,12 @@ class recorte(webapp.webApp):
                 httpBody += "'></head>" + "<body></body></html>\r\n"
             else:
                 httpBody = "<html><body>"
-                for key, corte in self.diccionario.items():
-                    httpBody += key + "  ->  http://localhost:1234/" + corte +"<br/>"
                 httpBody += "<form method='post' >"
                 httpBody += "URL:<input type='text' name='url'>"
-                httpBody += "</form></body></html>"
+                httpBody += "</form>"
+                for key, corte in self.diccionario.items():
+                    httpBody += key + "  ->  http://localhost:1234/" + corte +"<br/>"
+                httpBody += "</body></html>"
         elif clase == "POST":
             httpCode = "200 OK"
             qsvalida = cuerpo.split("=")[0]
